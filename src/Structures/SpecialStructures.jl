@@ -1,4 +1,4 @@
-export HcatMatrix, assemble
+export HcatMatrix, assemble, splitH
 
 mutable struct HcatMatrix{A1<:Matrix, A2<:Matrix}
     leftm::A1

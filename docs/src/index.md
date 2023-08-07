@@ -8,7 +8,7 @@ Julia 1.8 and up.
 
 ## How to Install
 
-```@meta
+````JULIA
 pkg> add StructuredQR
 pkg> test StructuredQR
-```
+````

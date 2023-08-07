@@ -27,6 +27,7 @@ function QRblocdiag!(A_vect::AbstractVector)
 
     * `A_vect` : the same vector where all the matrices have been QR-factorized;
     """
+
     for A in A_vect
         qrH!(A)
     end

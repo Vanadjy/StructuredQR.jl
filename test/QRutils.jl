@@ -18,8 +18,9 @@ function HouseholderReflection(u::AbstractVector)
     return (I - 2*u*u'/δ)
 end
 
-function splitH(A::AbstractMatrix, n1::Int)
-    return A[1:end, 1:n1], A[1:end, n1+1:end]
+function splitH(A::AbstractMatrix, n::Int)
+    @assert n < size(A,2)
+    return A[1:end, 1:n], A[1:end, n+1:end]
 end
 
 function CreateDiagBlock(nb_Matrix::Int, m_max::Int, n_max::Int)

@@ -24,6 +24,7 @@ function QRhcat!(A1::AbstractMatrix, A2::AbstractMatrix)
     * `A1` : a full-rank overdetermined matrix of dimension (m × n₁), containing the coefficients of Q₁ and R₁
     * `A2` : a full-rank overdetermined matrix of dimension (m × n₂), modified such that A = QR
     """
+
     n1 = size(A1,2) #nombre de colonne du premier bloc
     m2, n2 = size(A2)
 
