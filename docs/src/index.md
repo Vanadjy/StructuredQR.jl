@@ -1,7 +1,14 @@
+# StructuredQR package
+
+Documentation for StructuredQR.
+
+## Compatibility
+
+Julia 1.8 and up.
+
+## How to Install
+
 ```@meta
-CurrentModule = JSOTemplate
+pkg> add StructuredQR
+pkg> test StructuredQR
 ```
-
-# JSOTemplate
-
-Documentation for [JSOTemplate](https://github.com/JuliaSmoothOptimizers/JSOTemplate.jl).
