@@ -30,10 +30,10 @@ pkg> test StructuredQR
 First of all, the QR factorizations presented here have been devised for full-rank overdetermined matrices. It means, for a matrix $A$ of dimension $m \times n$, we got :
 
 $$
-\begin{choices}
+\begin{cases}
 m \geq n \\
 rank(A) = n
-\end{choices}
+\end{cases}
 $$
 
 This matrix $A$ has a unique QR-decomposition if we impose the sign of the diagonal coefficients of $R$. With this factorization, some useful operations with $Q$ can be done (such like the product of $Q$ by a vector or a matrix).
