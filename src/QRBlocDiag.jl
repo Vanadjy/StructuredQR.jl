@@ -1,18 +1,5 @@
 export QRblocdiag!, get_block
 
-using BlockDiagonals
-
-function get_block(A::BlockDiagonal{T, Matrix{T}}, k::Int) where T
-    #Idea : return the kᵗʰ block of A without allocating a new vector through BlockDiagonals.blocks
-    index_row = 0
-    index_col = 0
-    for l=1:(k-1)
-        index_row += BlockDiagonals.blocksize(A,l)[1]
-        index_col += BlockDiagonals.blocksize(A,l)[2]
-    end
-    (mₖ, nₖ) = BlockDiagonals.blocksize(A,k)
-    return view(A,index_row+1:index_row+mₖ, index_col+1:index_col+nₖ)
-end
 
 function QRblocdiag!(A_vect::AbstractVector)
     """
@@ -41,7 +28,6 @@ function QRblocdiag!(A_vect::AbstractVector)
 
     * `A_vect` : the same vector where all the matrices have been QR-factorized;
     """
-
     for A in A_vect
         qrH!(A)
     end
@@ -74,8 +60,11 @@ function QRblocdiag!(A::BlockDiagonal{T, Matrix{T}}) where T
 
     * `A` : the same BlockDiagonal Matrix whose r blocks now contain its own QR factorization information;
     """
-    for j in 1:(nblocks(A))
+    j = 1
+    N = nblocks(A)
+    while j ≤ N
         qrH!(BlockDiagonals.blocks(A)[j])
+        j+=1
     end
     A
 end

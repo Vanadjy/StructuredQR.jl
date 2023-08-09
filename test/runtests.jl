@@ -21,7 +21,7 @@ include("AllocsQRBlocDiag.jl")
 include("AllocsQRHcat.jl")
 
 ## Benchmarks to show the memory allocations and the elapsed time ##
-#=include("BenchmarkQRDense.jl")
+include("BenchmarkQRDense.jl")
 include("BenchmarkQops.jl")
 include("BenchmarkQRBlocDiag.jl")
-include("BenchmarkQRHcat.jl")=#
+include("BenchmarkQRHcat.jl")

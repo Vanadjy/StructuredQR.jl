@@ -6,7 +6,7 @@ function qtprod!(A::AbstractMatrix,x::AbstractVector)
 
     Calculates the product of Qᵀ, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by a vector x and stores the result within x by replacing its values by those of Qᵀx
 
-    Comutes : Q*x
+    Computes : Q*x
 
     Where :
         - Q is the unitary matrix from the QR factorization of A (an overdetermined full-rank matrix)
@@ -46,7 +46,7 @@ function qprod!(A::AbstractMatrix,x::AbstractVector)
 
     Calculates the product of Q, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by a vector x and stores the result within x by replacing its values by those of Qᵀx
 
-    Comutes : Qx
+    Computes : Qx
 
     Where :
         - Q is the unitary matrix from the QR factorization of A (an overdetermined full-rank matrix)
@@ -90,7 +90,7 @@ function qprod(A::AbstractMatrix,x::AbstractVector)
 
     Calculates the product of Q, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by a vector x and stores the result within y, a new vector with the same size as x
 
-    Comutes : Qx
+    Computes : Qx
 
     Where :
         - Q is the unitary matrix from the QR factorization of A (an overdetermined full-rank matrix)
@@ -116,7 +116,7 @@ function qtprod(A::AbstractMatrix,x::AbstractVector)
 
     Calculates the product of Qᵀ, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by a vector x and stores the result within y, a new vector with the same size as x
 
-    Comutes : Q*x
+    Computes : Q*x
 
     Where :
         - Q is the unitary matrix from the QR factorization of A (an overdetermined full-rank matrix)
@@ -142,7 +142,7 @@ function qmul!(A::AbstractMatrix, B::AbstractMatrix)
 
     Calculates the multiplication of Q, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by an other matrix B and stores the result within it by replacing its values by those of QB
 
-    Comutes : QB
+    Computes : QB
 
     Where :
         - Q is the unitary matrix from the QR factorization of A (an overdetermined full-rank matrix)
@@ -159,8 +159,8 @@ function qmul!(A::AbstractMatrix, B::AbstractMatrix)
     """
     m, n = size(B)
     for j = 1:n
-        #on effectue ici à chaque fois le produit compact Q*bⱼ
-        qprod!(A, view(B, 1:m, j)) #produit vecteur colonne par vecteur colonne de B
+        #we apply here qprod! on each column of B : Calculates Qbⱼ
+        qprod!(A, view(B, 1:m, j))
     end
     B
 end
@@ -171,7 +171,7 @@ function qtmul!(A::AbstractMatrix, B::AbstractMatrix)
 
     Calculates the multiplication of Qᵀ, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by an other matrix B and stores the result within it by replacing its values by those of QᵀB
 
-    Comutes : QᵀB
+    Computes : QᵀB
 
     Where :
         - Q is the unitary matrix from the QR factorization of A (an overdetermined full-rank matrix)
@@ -188,8 +188,8 @@ function qtmul!(A::AbstractMatrix, B::AbstractMatrix)
     """
     m, n = size(B)
     for j = 1:n
-        #on effectue ici à chaque fois le produit compact Q*bⱼ
-        qtprod!(A, view(B, 1:m, j)) #produit vecteur colonne par vecteur colonne de B
+        #we apply here qtprod! on each column of B : Calculates Qᵀbⱼ
+        qtprod!(A, view(B, 1:m, j))
     end
     B
 end
