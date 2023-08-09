@@ -15,10 +15,7 @@ function my_sign(x::Number)
     * 1 if x==0.0
     * the sign of x otherwise
     """
-    if x == 0.0
-        return 1
-    else return sign(x)
-    end
+    return x == 0 ? 1 : sign(x)
 end
 
 function qrH!(A::AbstractMatrix)
@@ -44,6 +41,10 @@ function qrH!(A::AbstractMatrix)
     * `A`: a matrix of dimension m × n, m ≥ n, containing the coefficients of Q and R;
     """
     m, n = size(A)
+    # Ensures the input matrix A is overdetermined
+    if m < n
+        return error("Argument error : the input Matrix is not overdetermined")
+    end
     j = 1
         while (j <= n) & (j < m)
             #necessary quantities

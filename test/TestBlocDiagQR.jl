@@ -28,7 +28,7 @@ end
     v = CreateDiagBlock(nb_Matrix, m_max, n_max)[1]
     A = BlockDiagonal(v)
     A_aux = deepcopy(A)
-    v_aux = blocks(A_aux)
+    v_aux = BlockDiagonals.blocks(A_aux)
     QRblocdiag!(v_aux)
     
     #block by block tests
@@ -44,7 +44,7 @@ end
     end
 end
 
-# Tests using qrhat!
+# Tests using qrhat! with a BlockDiagonal Matrix
 println("Through qrhat!")
 
 @testset begin
@@ -55,7 +55,7 @@ println("Through qrhat!")
     A = BlockDiagonal(v)
     A_aux = deepcopy(A)
     qrhat!(A_aux)
-    v_aux = blocks(A_aux)
+    v_aux = BlockDiagonals.blocks(A_aux)
     
     #block by block tests
     for k in eachindex(v)

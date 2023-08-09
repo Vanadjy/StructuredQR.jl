@@ -1,8 +1,7 @@
 module StructuredQR
 
-using LinearAlgebra, Printf, SparseArrays, BlockDiagonals
+using LinearAlgebra, Printf, SparseArrays, BlockDiagonals, BlockArrays
 
-include("Structures/SpecialStructures.jl")
 include("QOperations.jl")
 include("QRBlocDiag.jl")
 include("QRDense.jl")

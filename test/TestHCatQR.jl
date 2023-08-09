@@ -61,8 +61,8 @@ println("Through qrhat!")
     n = n1 + n2
 
     A1, A2 = rand(m, n1), rand(m, n2)
-    R_H = HcatMatrix(A1, A2)
-    A = assemble(R_H)
+    R_H = BlockArray(rand(m,n), [m], [n1,n2])
+    A = Array(R_H)
     A_aux = deepcopy(A)
     B = deepcopy(A)
     F = qr(A)
@@ -73,8 +73,8 @@ println("Through qrhat!")
     @test norm(Q_H'B - qtmul!(A_aux, B)) <= 1e-13 #tests if the multiplication Q*B is correct
 
     qrhat!(R_H)
-    R = RRebuildHcat(R_H.leftm, R_H.rightm)
-    Q = QRebuildHcat(R_H.leftm, R_H.rightm)
+    R = RRebuildHcat(R_H[Block(1,1)], R_H[Block(1,2)])
+    Q = QRebuildHcat(R_H[Block(1,1)], R_H[Block(1,2)])
     @test norm(F.R - R[1:n, 1:n]) <= 1e-14 #test of unicity of QR decomposition
     @test norm(F.Q - Q) <= 1e-13
     @test norm(A - Q*R) <= 1e-13 #tests if the decomposition is correct
