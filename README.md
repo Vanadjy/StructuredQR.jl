@@ -42,7 +42,18 @@ Depending on the type of `A` (and so far its structure as well), a specific QR-f
 
 ### Dense matrices
 
-For a dense matrix, `qrH!` will be call.
+For a dense matrix (i.e. a matrix without any specific structure), `qrH!` is the function applying the QR-Factorization using Reflections of Householder. It can be used just as follows :
+
+````JULIA
+m = 10
+n = 8
+A = rand(m, n)
+qrH!(A)
+````
+
+The QR factorisation is computed inside of `A`, so its previous coefficients have been now replaced by those of $R$ in its upper triangle and the remaining is filled with vectors required to apply operations linked with $Q$. Be careful : this function modifies the elements of `A`.
+
+The QR-hat function `qrhat!` can be used instead whenever you have an `AbstractMatrix` in input.
 
 ````JULIA
 m = 10
@@ -51,11 +62,18 @@ A = rand(m, n)
 qrhat!(A)
 ````
 
-The QR factorisation is computed inside of `A`, so its previous coefficients have been now replaced by those of $R$ in its upper triangle and the remaining is filled with vectors required to apply operations linked with $Q$.
-
 ### Block-Diagonal matrices
 
-For Block-Diagonal matrices defined with the `BlockDiagonals.jl` module already existing in Julia, `QRblocdiag!` will be call.
+For Block-Diagonal matrices defined with the `BlockDiagonals.jl` module already existing in Julia, `QRblocdiag!` can be used to exploit this specific structure.
+
+````JULIA
+using BlockDiagonals
+
+A = BlockDiagonal([rand(4,4), rand(3,2)])
+QRblocdiag!!(A)
+````
+
+Just like for dense matrices, `qrhat!` can be used instead and will apply the suitable method for this structure.
 
 ````JULIA
 using BlockDiagonals
@@ -66,13 +84,31 @@ qrhat!(A)
 
 ### Horizontally concatenated matrices
 
-This module also allows the user to apply a QR-factorisation by splitting horizontally the matrix so that the specific QR factorization will consider those two blocks :
+To treat the case of horizontally concatenated matrices, this module uses the structure of `BlockArray` from the module `BlockArrays.jl` but only the very particular case of a 1x2-Block-Matrix.
 
 ````JULIA
-A1, A2 = rand(6, 3), rand(6, 2)
-A = HcatMatrix(A1, A2)
+using BlockArrays
+
+A = BlockArray(rand(6,5), [6], [2,3])
+QRhcat!(A)
+````
+
+Like the two previous cases, `qrhat!` can be used to apply the suitable method for horizontally concatenated matrices whenever the function has in input a Block-Array.
+
+````JULIA
+using BlockArrays
+
+A = BlockArray(rand(6,5), [6], [2,3])
 qrhat!(A)
 ````
+
+## Specific features for this package
+
+One of the relevant specific features of this package is that all of the functions available do not allocate additionnal memory. This feature is a real advantage to avoid some `Out of Memory errors` when you handle very large matrices.
+
+A second convenient feature is the hat function devised in this package is here to apply the most suitable method for the structure of the input matrix. But if the user prefers to use directly the most appropriate function for their case, they can simply call the desired QR-factorization function.
+
+Another feature is the `QOperations.jl` in which you have several linear operations using $Q$, the unitary matrix from the QR decomposition. Just like all of the other functions, these functions do not allocate additionnal memory. However, to use these functions, you absolutely need to compute first a QR factorisation just to get the necessary information about Q. But afterwards, you'll can carry out some basic linear operations ($Qb$, $Q^Tb$, $QB$) etc...
 
 ## Bug reports and discussions
 

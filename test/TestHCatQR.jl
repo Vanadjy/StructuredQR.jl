@@ -60,7 +60,6 @@ println("Through qrhat!")
     n2 = 3
     n = n1 + n2
 
-    A1, A2 = rand(m, n1), rand(m, n2)
     R_H = BlockArray(rand(m,n), [m], [n1,n2])
     A = Array(R_H)
     A_aux = deepcopy(A)
