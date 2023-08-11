@@ -6,7 +6,6 @@ n = n1 + n2
 A = rand(m, n)
 b = rand(m)
 B = rand(m,n)
-A1, A2 = splitH(A, n1)
 
 R = copy(A)
 qrH!(R)

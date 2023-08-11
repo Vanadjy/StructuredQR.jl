@@ -1,7 +1,7 @@
 using StructuredQR
 using Test
 using TestSetExtensions
-using BenchmarkTools, GenericLinearAlgebra
+using GenericLinearAlgebra
 using LinearAlgebra
 using BlockDiagonals
 using BlockArrays
@@ -19,6 +19,7 @@ include("TestHCatQR.jl")
 println("-------------------------------")
 println("Testing allocations")
 println("-------------------------------")
+
 @testset "Allocations of functions" begin
 include("AllocsQRDense.jl")
 include("AllocsQops.jl")
@@ -26,10 +27,3 @@ include("AllocsQRBlocDiag.jl")
 include("AllocsQRHcat.jl")
 include("AllocsQRhat.jl")
 end
-
-## Benchmarks to show the memory allocations and the elapsed time ##
-#=include("BenchmarkQRDense.jl")
-include("BenchmarkQops.jl")
-include("BenchmarkQRBlocDiag.jl")
-include("BenchmarkQRHcat.jl")
-include("BenchmarkQRhat.jl")=#
