@@ -1,12 +1,13 @@
 name = "StructuredQR"
 uuid = "fd6cd418-c8b6-426e-93a9-760555b01deb"
-authors = ["Abel Soares Siqueira <abel.s.siqueira@gmail.com> and contributors"]
+authors = ["Valentin Dijon <valentin.dijon@free.fr>"]
 version = "0.1.0"
 
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
 BlockDiagonals = "0a1fb500-61f7-11e9-3c65-f5ef3456f9f0"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Emporium = "4f286ecd-06d3-4492-bdef-0ca090b7d070"
 Formatting = "59287772-0a20-5a39-b81b-1366585eb4c0"
 GenericLinearAlgebra = "14197337-ba66-59df-a3e3-ca00e7dcff7a"

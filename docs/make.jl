@@ -1,26 +1,26 @@
-using JSOTemplate
+using StructuredQR
 using Documenter
 
-DocMeta.setdocmeta!(JSOTemplate, :DocTestSetup, :(using JSOTemplate); recursive = true)
+DocMeta.setdocmeta!(StructuredQR, :DocTestSetup, :(using StructuredQR); recursive = true)
 
 makedocs(;
-  modules = [JSOTemplate],
+  modules = [StructuredQR],
   doctest = true,
   linkcheck = false,
   strict = false,
-  authors = "Abel Soares Siqueira <abel.s.siqueira@gmail.com> and contributors",
-  repo = "https://github.com/JuliaSmoothOptimizers/JSOTemplate.jl/blob/{commit}{path}#{line}",
-  sitename = "JSOTemplate.jl",
+  authors = "Valentin Dijon <valentin.dijon@polymtl.ca>",
+  repo = "https://github.com/JuliaSmoothOptimizers/StructuredQR.jl/blob/{commit}{path}#{line}",
+  sitename = "StructuredQR.jl",
   format = Documenter.HTML(;
     prettyurls = get(ENV, "CI", "false") == "true",
-    canonical = "https://JuliaSmoothOptimizers.github.io/JSOTemplate.jl",
+    canonical = "https://JuliaSmoothOptimizers.github.io/StructuredQR.jl",
     assets = ["assets/style.css"],
   ),
   pages = ["Home" => "index.md", "Reference" => "reference.md"],
 )
 
 deploydocs(;
-  repo = "github.com/JuliaSmoothOptimizers/JSOTemplate.jl",
+  repo = "github.com/JuliaSmoothOptimizers/StructuredQR.jl",
   push_preview = true,
   devbranch = "main",
 )

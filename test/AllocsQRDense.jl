@@ -7,13 +7,13 @@ A = rand(m, n)
 
 qr!_a = @allocated begin
     LinearAlgebra.qr!(A)
-end; @show(qr!_a)
+end; #@show(qr!_a)
 
 qr!_a2 = @allocated begin
     GenericLinearAlgebra.qr!(A)
-end; @show(qr!_a2)
+end; #@show(qr!_a2)
 
 qrH!_a = @allocated begin
     qrH!(A)
-end; @show(qrH!_a)
-display(@test qrH!_a==0)
+end; #@show(qrH!_a)
+@test qrH!_a==0

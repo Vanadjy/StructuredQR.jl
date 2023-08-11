@@ -8,5 +8,5 @@ A_aux = deepcopy(A)
 QRblocdiag!(A)
 QRblocdiag!_a = @allocated begin
     @views QRblocdiag!(A_aux)
-end; @show(QRblocdiag!_a)
-display(@test QRblocdiag!_a == 0)
+end; #@show(QRblocdiag!_a)
+@test QRblocdiag!_a == 0

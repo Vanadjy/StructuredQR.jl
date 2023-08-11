@@ -4,8 +4,8 @@ A = rand(m,n)
 
 qrhat_qrH_a = @allocated begin 
     qrhat!(A)
-end; @show(qrhat_qrH_a)
-display(@test qrhat_qrH_a == 0)
+end; #@show(qrhat_qrH_a)
+@test qrhat_qrH_a == 0
 
 
 nb_Matrix = 50
@@ -19,8 +19,8 @@ qrhat!(Ab_aux)
 
 qrhat_QRBlocDiag_a = @allocated begin 
     qrhat!(Ab)
-end; @show(qrhat_QRBlocDiag_a)
-display(@test qrhat_QRBlocDiag_a == 0)
+end; #@show(qrhat_QRBlocDiag_a)
+@test qrhat_QRBlocDiag_a == 0
 
 m = 100
 n1 = 50
@@ -31,5 +31,5 @@ Ah = BlockArray(rand(m,n), [m], [n1,n2])
 
 qrhat_QRhcat_a = @allocated begin 
     qrhat!(Ah)
-end; @show(qrhat_QRhcat_a)
+end; #@show(qrhat_QRhcat_a)
 #display(@test qrhat_QRhcat_a == 0)
