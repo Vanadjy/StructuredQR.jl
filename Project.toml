@@ -17,6 +17,7 @@ PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+TestSetExtensions = "98d24dd4-01ad-11ea-1b02-c9a08f80db04"
 
 [compat]
 Emporium = "0.2.4"
