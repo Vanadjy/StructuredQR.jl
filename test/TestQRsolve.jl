@@ -36,8 +36,6 @@ end
     @test norm(y - b[1:n]) ≤ 1e-12
 end
 
-## DISCLAIMER - tests are carried out block by block and not with the full BlockDiagonal Matrix in input ##
-
 @testset "rdiv! - BlockDiagonal matrices" begin
     nb_Matrix = 50
     m_max = 50

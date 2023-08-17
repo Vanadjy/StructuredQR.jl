@@ -97,8 +97,20 @@ function qprod!(A::AbstractMatrix,x::AbstractVector)
     x
 end
 
+function qprod!(A::BlockDiagonal{T, Matrix{T}}, x::AbstractVector) where T
+    j = 1
+    N = nblocks(A)
+    indexi = 0
+    while j ≤ N
+        m = size(BlockDiagonals.blocks(A)[j], 1)
+        @views qprod!(BlockDiagonals.blocks(A)[j], x[(indexi + 1):(indexi + m)])
+        indexi += m
+        j += 1
+    end
+end
+
 """
-qprod(A::AbstractMatrix,x::AbstractVector)
+qprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector)
 
 Calculates the product of Q, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by a vector x and stores the result within y, a new vector with the same size as x
 
@@ -118,14 +130,14 @@ Where :
 * `y`: a newly created vector of size m containing the result of the operation Qx;
 """
 
-function qprod(A::AbstractMatrix,x::AbstractVector)
+function qprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector)
     y = copy(x)
     qprod!(A, y)
     y
 end
 
 """
-qtprod(A::AbstractMatrix,x::AbstractVector)
+qtprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector)
 
 Calculates the product of Qᵀ, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by a vector x and stores the result within y, a new vector with the same size as x
 
@@ -145,14 +157,14 @@ Where :
 * `y`: a newly created vector of size m containing the result of the operation Q*x;
 """
 
-function qtprod(A::AbstractMatrix,x::AbstractVector)
+function qtprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector)
     y = copy(x)
     qtprod!(A, y)
     y
 end
 
 """
-qmul!(A::AbstractMatrix, B::AbstractMatrix)
+qmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
 
 Calculates the multiplication of Q, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by an other matrix B and stores the result within it by replacing its values by those of QB
 
@@ -172,7 +184,7 @@ Where :
 * `B`: a matrix of dimensions m × r containing the result of the operation QB;
 """
 
-function qmul!(A::AbstractMatrix, B::AbstractMatrix)
+function qmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
     m, n = size(B)
     for j = 1:n
         #we apply here qprod! on each column of B : Calculates Qbⱼ
@@ -182,7 +194,7 @@ function qmul!(A::AbstractMatrix, B::AbstractMatrix)
 end
 
 """
-qmul!(A::AbstractMatrix, B::AbstractMatrix)
+qmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
 
 Calculates the multiplication of Q, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by an other matrix B and stores the result within Y by replacing its values by those of QB
 
@@ -202,14 +214,14 @@ Where :
 * `Y`: a newmy created matrix of dimensions m × r containing the result of the operation QB;
 """
 
-function qmul(A::AbstractMatrix, B::AbstractMatrix)
+function qmul(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
     Y = copy(B)
     qmul!(A, Y)
     Y
 end
 
 """
-qtmul!(A::AbstractMatrix, B::AbstractMatrix)
+qtmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
 
 Calculates the multiplication of Qᵀ, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by an other matrix B and stores the result within it by replacing its values by those of QᵀB
 
@@ -229,7 +241,7 @@ Where :
 * `B`: a matrix of dimensions m × r containing the result of the operation QᵀB;
 """
 
-function qtmul!(A::AbstractMatrix, B::AbstractMatrix)
+function qtmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
     m, n = size(B)
     for j = 1:n
         #we apply here qtprod! on each column of B : Calculates Qᵀbⱼ
@@ -239,7 +251,7 @@ function qtmul!(A::AbstractMatrix, B::AbstractMatrix)
 end
 
 """
-qtmul!(A::AbstractMatrix, B::AbstractMatrix)
+qtmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
 
 Calculates the multiplication of Qᵀ, the unitary matrix from the QR decomposition of A (an overdetermined full-rank matrix), by an other matrix B and stores the result within Y by replacing its values by those of QᵀB
 
@@ -259,7 +271,7 @@ Where :
 * `Y`: a newly created matrix of dimensions m × r containing the result of the operation QᵀB;
 """
 
-function qtmul(A::AbstractMatrix, B::AbstractMatrix)
+function qtmul(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
     Y = copy(B)
     qtmul!(A, Y)
     Y
@@ -322,6 +334,12 @@ function rdiv!(A::BlockDiagonal{T, Matrix{T}}, b::AbstractVector) where T
     end
 end
 
+function rdiv(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}}, b::AbstractVector)where T
+    y = copy(b)
+    rdiv!(A, y)
+    y
+end
+
 """
 qrsolve!(A::Union{AbstractMatrix, AbstractBlockMatrix{T}}, b::AbstractVector)
 
@@ -342,14 +360,8 @@ function qrsolve!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}, Abstract
     rdiv!(A, b)
 end
 
-#=function qrsolve!(A::BlockDiagonal{T, Matrix{T}}) where T
-    j = 1
-    N = nblocks(A)
-    indexi = 0
-    while j ≤ N
-        m = size(BlockDiagonals.blocks(A)[j], 1)
-        @views qrsolve!(BlockDiagonals.blocks(A)[j], b[(indexi + 1):(indexi + m)])
-        indexi += m
-        j += 1
-    end
-end=#
+function qrsolve(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}}, b::AbstractVector) where T
+    y = copy(b)
+    qrsolve!(A, y)
+    y
+end
