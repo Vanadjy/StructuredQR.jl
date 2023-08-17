@@ -50,7 +50,7 @@ println("-------------------------------")
 
     # Tests using qrhat! with a BlockDiagonal Matrix
 
-    @testset "Testing through the hat function - BlockDiagonal method" begin
+    @testset "Testing through the hat function - BlockDiagonal method - Block by block" begin
         nb_Matrix = 50
         m_max = 50
         n_max = 30
@@ -71,4 +71,24 @@ println("-------------------------------")
             @test norm(Q_H - F.Q) ≤ 1e-13
             @test norm(Q_H*triu(v_aux[k]) - v[k]) ≤ 1e-13
         end
+    end
+
+    @testset "Testing through the hat function - BlockDiagonal method - Full matrix" begin
+        bm = BlockDiagonal([rand(3, 3), rand(3, 2)])
+        m, n = size(bm)
+        am = copy(bm)
+        b = rand(m)
+        c = copy(b)
+
+        qrhat!(am)
+        F = qr(bm)
+        R = get_r(am)
+
+        Q = QRebuildBDM!(am)
+        qtprod!(am, b)
+        @test norm(b - Q'c) ≤ 1e-13
+        
+        @test norm(F.Q - Q) ≤ 1e-13
+        @test norm(F.R - R[1:n, 1:n]) ≤ 1e-13
+        @test norm((Q * R) - bm) ≤ 1e-13
     end

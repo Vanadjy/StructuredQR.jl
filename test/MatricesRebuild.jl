@@ -85,3 +85,11 @@ function RRebuildHcat(A1::AbstractMatrix, A2::AbstractMatrix)
     R2 = [A2[1:n1, 1:end] ; R_prime]
     return [R1 R2]
 end
+
+function QRebuildBDM!(A::BlockDiagonal{T, Matrix{T}}; Q_vect = Matrix{Float64}[]) where T
+    v = BlockDiagonals.blocks(A)
+    for M in v
+        push!(Q_vect, QRebuild!(M))
+    end
+    return BlockDiagonal(Q_vect)
+end

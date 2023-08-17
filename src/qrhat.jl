@@ -1,4 +1,4 @@
-export qrhat!
+export qrhat!, qrhat
 
 qrhat!(A::AbstractMatrix) = qrH!(A) #Dense matrix
 

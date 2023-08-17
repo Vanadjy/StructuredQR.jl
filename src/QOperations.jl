@@ -1,4 +1,4 @@
-export qprod!, qtprod!, qprod, qtprod, qmul!, qtmul!, qmul, qtmul
+export qprod!, qtprod!, qprod, qtprod, qmul!, qtmul!, qmul, qtmul, get_r, rdiv!, qrsolve!
 
 """
 qtprod!(A::AbstractMatrix,x::AbstractVector)
@@ -39,6 +39,18 @@ function qtprod!(A::AbstractMatrix,x::AbstractVector)
         j+=1
     end
     x
+end
+
+function qtprod!(A::BlockDiagonal{T, Matrix{T}}, x::AbstractVector) where T
+    j = 1
+    N = nblocks(A)
+    indexi = 0
+    while j ≤ N
+        m = size(BlockDiagonals.blocks(A)[j], 1)
+        @views qtprod!(BlockDiagonals.blocks(A)[j], x[(indexi + 1):(indexi + m)])
+        indexi += m
+        j += 1
+    end
 end
 
 """
@@ -252,3 +264,92 @@ function qtmul(A::AbstractMatrix, B::AbstractMatrix)
     qtmul!(A, Y)
     Y
 end
+
+"""
+get_r(A::Union{AbstractMatrix, AbstractSparseMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}})
+
+Returns the R factor from the QR factorization of A
+
+#### Input arguments
+* `A` : a full-rank overdetermined matrix of dimension (m × n) that has been QR-factorized
+
+#### Output arguments
+* `R` : the R factor of dimension (m × n) (uppper triangular matrix) of the QR-factorization of A
+"""
+function get_r(A::Union{AbstractMatrix, AbstractSparseMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}}) where T
+    return triu(A)
+end
+
+"""
+    rdiv!(A::Union{AbstractMatrix, AbstractBlockMatrix{T}}, b::AbstractVector)
+
+    Computes the solution of the system Rx = b where R is upper triangular by replacing the values of the rhs b
+
+    #### Input arguments
+    `A` : a full-rank overdetermined matrix of dimension (m × n) that has been QR-factorized
+
+    #### Output arguments
+    `b` : the rhs containing now the solution of the system Rx = b     
+"""
+function rdiv!(A::Union{AbstractMatrix, AbstractBlockMatrix{T}}, b::AbstractVector) where T
+    n = size(A, 2)
+    for j = n:-1:1
+        @views b[j] = (b[j] - A[j, (j + 1):n]'b[(j + 1):n])/A[j,j]
+    end
+    b
+end
+
+"""
+    rdiv!(A::BlockDiagonal{T, Matrix{T}}, b::AbstractVector)
+
+    Computes the solution of the system Ax = b where A is BlockDiagonal upper triangular by replacing the values of the rhs b. For A with r blocks, r systems are solved using a dense method of rdiv! on each. 
+
+    #### Input arguments
+    `A` : a full-rank overdetermined matrix of dimension (m × n) that has been QR-factorized
+
+    #### Output arguments
+    `b` : the rhs containing now the solution of the system Ax = b     
+"""
+function rdiv!(A::BlockDiagonal{T, Matrix{T}}, b::AbstractVector) where T
+    j = 1
+    N = nblocks(A)
+    indexi = 0
+    while j ≤ N
+        m = size(BlockDiagonals.blocks(A)[j], 1)
+        @views rdiv!(BlockDiagonals.blocks(A)[j], b[(indexi + 1):(indexi + m)])
+        indexi += m
+        j += 1
+    end
+end
+
+"""
+qrsolve!(A::Union{AbstractMatrix, AbstractBlockMatrix{T}}, b::AbstractVector)
+
+Solves the system Ax = b via the QR factorization of A, so that it solves Rx = Qᵀb
+
+#### Input arguments
+`A` : a full-rank overdetermined matrix of dimension (m × n)
+
+#### Output arguments
+`b` : the rhs containing now the solution of the system Ax = b 
+"""
+function qrsolve!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}}, b::AbstractVector) where T
+    #Computes the QR factorization
+    qrhat!(A)
+    #Transforms the rhs as Qᵀb
+    qtprod!(A, b)
+    #Solves the system Rx = Qᵀb
+    rdiv!(A, b)
+end
+
+#=function qrsolve!(A::BlockDiagonal{T, Matrix{T}}) where T
+    j = 1
+    N = nblocks(A)
+    indexi = 0
+    while j ≤ N
+        m = size(BlockDiagonals.blocks(A)[j], 1)
+        @views qrsolve!(BlockDiagonals.blocks(A)[j], b[(indexi + 1):(indexi + m)])
+        indexi += m
+        j += 1
+    end
+end=#

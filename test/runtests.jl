@@ -14,6 +14,7 @@ include("QRutils.jl")
 include("TestDenseQR.jl") 
 include("TestBlocDiagQR.jl") 
 include("TestHCatQR.jl")
+include("TestQRsolve.jl")
 
 ## Tests the number of allocations ##
 println("-------------------------------")
@@ -26,4 +27,5 @@ include("AllocsQops.jl")
 include("AllocsQRBlocDiag.jl")
 include("AllocsQRHcat.jl")
 include("AllocsQRhat.jl")
+include("AllocsQRsolve.jl")
 end

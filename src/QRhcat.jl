@@ -132,6 +132,10 @@ As A is seen as horizontally concatenated, we will first compute A₁ = Q₁R₁
 #### Output arguments
 
 * `B` : a new matrix that contains all of the QR-factorization information of A
+
+#### References
+
+* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter.
 """
 
 function QRhcat(A::AbstractBlockMatrix{T}) where T
