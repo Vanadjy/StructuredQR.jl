@@ -38,6 +38,10 @@ The strategy used here is first to overwrite the coefficients of R in the upper 
 #### Output arguments
 
 * `A`: a matrix of dimension m × n, m ≥ n, containing the coefficients of Q and R;
+
+#### References
+
+* TREFETHEN, Lloyd N. et BAU, David. Numerical linear algebra. Siam, 2022, (pp. 70-77).
 """
 function qrH!(A::AbstractMatrix)
     m, n = size(A)
@@ -93,6 +97,10 @@ The strategy used here is first to overwrite the coefficients of R in the upper 
 #### Output arguments
 
 * `B`: a newly created matrix of dimension m × n, m ≥ n, containing the coefficients of Q and R;
+
+#### References
+
+* TREFETHEN, Lloyd N. et BAU, David. Numerical linear algebra. Siam, 2022, (pp. 70-77).
 """
 function qrH(A::AbstractMatrix)
     B = copy(A)

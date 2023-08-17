@@ -130,7 +130,7 @@ Where :
 * `y`: a newly created vector of size m containing the result of the operation Qx;
 """
 
-function qprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector)
+function qprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector) where T
     y = copy(x)
     qprod!(A, y)
     y
@@ -157,7 +157,7 @@ Where :
 * `y`: a newly created vector of size m containing the result of the operation Q*x;
 """
 
-function qtprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector)
+function qtprod(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}},x::AbstractVector) where T
     y = copy(x)
     qtprod!(A, y)
     y
@@ -184,7 +184,7 @@ Where :
 * `B`: a matrix of dimensions m × r containing the result of the operation QB;
 """
 
-function qmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
+function qmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix) where T
     m, n = size(B)
     for j = 1:n
         #we apply here qprod! on each column of B : Calculates Qbⱼ
@@ -214,7 +214,7 @@ Where :
 * `Y`: a newmy created matrix of dimensions m × r containing the result of the operation QB;
 """
 
-function qmul(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
+function qmul(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix) where T
     Y = copy(B)
     qmul!(A, Y)
     Y
@@ -241,7 +241,7 @@ Where :
 * `B`: a matrix of dimensions m × r containing the result of the operation QᵀB;
 """
 
-function qtmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
+function qtmul!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix) where T
     m, n = size(B)
     for j = 1:n
         #we apply here qtprod! on each column of B : Calculates Qᵀbⱼ
@@ -271,7 +271,7 @@ Where :
 * `Y`: a newly created matrix of dimensions m × r containing the result of the operation QᵀB;
 """
 
-function qtmul(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix)
+function qtmul(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}}, B::AbstractMatrix) where T
     Y = copy(B)
     qtmul!(A, Y)
     Y
@@ -334,7 +334,7 @@ function rdiv!(A::BlockDiagonal{T, Matrix{T}}, b::AbstractVector) where T
     end
 end
 
-function rdiv(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}}, b::AbstractVector)where T
+function rdiv(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}}, b::AbstractVector) where T
     y = copy(b)
     rdiv!(A, y)
     y
@@ -349,7 +349,11 @@ Solves the system Ax = b via the QR factorization of A, so that it solves Rx = Q
 `A` : a full-rank overdetermined matrix of dimension (m × n)
 
 #### Output arguments
-`b` : the rhs containing now the solution of the system Ax = b 
+`b` : the rhs containing now the solution of the system Ax = b
+
+#### References
+
+* TREFETHEN, Lloyd N. et BAU, David. Numerical linear algebra. Siam, 2022, (pp. 54).
 """
 function qrsolve!(A::Union{AbstractMatrix, BlockDiagonal{T, Matrix{T}}, AbstractBlockMatrix{T}}, b::AbstractVector) where T
     #Computes the QR factorization

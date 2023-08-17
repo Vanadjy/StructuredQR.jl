@@ -26,6 +26,10 @@ Where :
 #### Output arguments
 
 * `A_vect` : the same vector where all the matrices have been QR-factorized;
+
+#### References
+
+* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
 """
 
 function QRblocdiag!(A_vect::AbstractVector)
@@ -59,6 +63,10 @@ Where :
 #### Output arguments
 
 * `B_vect` : a newly created AbstractVector of size r containing all the blocks of a Block-Diagonal matrix;
+
+#### References
+
+* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
 """
 
 function QRblocdiag(A_vect::AbstractVector)
@@ -92,6 +100,9 @@ Where :
 #### Output arguments
 
 * `A` : the same BlockDiagonal Matrix whose r blocks now contain its own QR factorization information;
+
+#### References
+* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
 """
 
 function QRblocdiag!(A::BlockDiagonal{T, Matrix{T}}) where T
@@ -129,6 +140,10 @@ Where :
 #### Output arguments
 
 * `B` : a newly created BlockDiagonal Matrix whose r blocks now contain its own QR factorization information;
+
+#### References
+
+* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
 """
 
 function QRblocdiag(A::BlockDiagonal{T, Matrix{T}}) where T

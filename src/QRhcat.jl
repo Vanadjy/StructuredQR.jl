@@ -24,6 +24,10 @@ function QRhcat!(A1::AbstractMatrix, A2::AbstractMatrix)
 
     * `A1` : a full-rank overdetermined matrix of dimension (m × n₁), containing the coefficients of Q₁ and R₁
     * `A2` : a full-rank overdetermined matrix of dimension (m × n₂), modified such that A = QR
+
+    #### References
+
+    * Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
     """
 
     n1 = size(A1,2) #nombre de colonne du premier bloc
@@ -62,6 +66,10 @@ function QRhcat(A1::AbstractMatrix, A2::AbstractMatrix)
 
     * `B1` : a new full-rank overdetermined matrix of dimension (m × n₁), containing the coefficients of Q₁ and R₁
     * `B2` : a new full-rank overdetermined matrix of dimension (m × n₂), modified such that A = QR
+
+    #### References
+
+    * Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
     """
 
     B1 = copy(A1)
@@ -91,6 +99,10 @@ As A is seen as horizontally concatenated, we will first compute A₁ = Q₁R₁
 #### Output arguments
 
 * `A` : the same matrix as in input modified so that it contains all of its QR-factorization information
+
+#### References
+
+* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
 """
 
 function QRhcat!(A::AbstractBlockMatrix{T}) where T
@@ -135,7 +147,7 @@ As A is seen as horizontally concatenated, we will first compute A₁ = Q₁R₁
 
 #### References
 
-* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter.
+* Svoboda, J., Cashman, T., & Fitzgibbon, A. (2018). [Qrkit : Sparse, composable qr decompositions for efficient and stable solutions to problems in computer vision](https://ieeexplore.ieee.org/document/8354247) In 2018 ieee winter, (pp. 1263-1272);
 """
 
 function QRhcat(A::AbstractBlockMatrix{T}) where T
