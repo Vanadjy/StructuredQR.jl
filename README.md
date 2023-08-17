@@ -108,7 +108,23 @@ One of the relevant specific features of this package is that all of the functio
 
 A second convenient feature is the hat function devised in this package is here to apply the most suitable method for the structure of the input matrix. But if the user prefers to use directly the most appropriate function for their case, they can simply call the desired QR-factorization function.
 
-Another feature is the `QOperations.jl` in which you have several linear operations using $Q$, the unitary matrix from the QR decomposition. Just like all of the other functions, these functions do not allocate additionnal memory. However, to use these functions, you absolutely need to compute first a QR factorisation just to get the necessary information about Q. But afterwards, you'll can carry out some basic linear operations ($Qb$, $Q^Tb$, $QB$) etc...
+Another feature is the `QOperations.jl` in which you have several linear operations using $Q$, the unitary matrix from the QR decomposition. Just like all of the other functions, these functions do not allocate additionnal memory. However, to use these functions, you absolutely need to compute first a QR factorisation just to get the necessary information about Q. But afterwards, you'll can carry out some basic linear operations ($Qb$, $Q^Tb$, $QB$) etc... 
+
+In `QOperations.jl`, there is as well operations to solve some linear systems. The function `qrsolve!` solves the system $Ax = b$ for an overdetermined full-rank matrix $A$ via the QR-Factorization of $A$.
+
+````JULIA
+A = rand(10, 8)
+b = rand(10)
+qrsolve!(A, b)
+````
+Besides, `rsolve!` solves the system $Rx = y$ where $R$ is an upper triangular matrix.
+
+````JULIA
+A = rand(10, 8)
+b = rand(10)
+qrhat!(A)
+rdiv!(A, b)
+````
 
 ## Bug reports and discussions
 
