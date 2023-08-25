@@ -126,7 +126,7 @@ qrhat!(A)
 rdiv!(A, b)
 ````
 
-There is also a function that returns the factor $$R$$ of the QR Factorization.
+There is also a function that returns the factor $R$ of the QR Factorization.
 
 ````JULIA
 A = rand(10, 8)
