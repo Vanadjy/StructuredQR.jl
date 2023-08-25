@@ -126,6 +126,14 @@ qrhat!(A)
 rdiv!(A, b)
 ````
 
+There is also a function that returns the factor $$R$$ of the QR Factorization.
+
+````JULIA
+A = rand(10, 8)
+qrhat!(A)
+get_r(A)
+````
+
 ## Bug reports and discussions
 
 If you think you found a bug, feel free to open an [issue](https://github.com/JuliaSmoothOptimizers/JSOTemplate.jl/issues).
