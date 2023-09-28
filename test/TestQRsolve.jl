@@ -1,3 +1,7 @@
+println("-------------------------------")
+println("Test for rdiv!")
+println("-------------------------------")
+
 @testset "rdiv! - dense matrices" begin
     n1 = 5
     n2 = 3
@@ -5,6 +9,7 @@
     n = n1 + n2
     A = rand(m, n)
     b = rand(m)
+    res = similar(b)
     c = copy(b)
     B = copy(A)
 
@@ -12,9 +17,9 @@
     F = qr(B)
     R = get_r(A)
 
-    StructuredQR.rdiv!(R, b)
+    StructuredQR.rdiv!(res, R, b)
     y = R\c
-    @test norm(y - b[1:n]) ≤ 1e-12
+    @test norm(y - res[1:n]) ≤ 1e-12
 end
 
 @testset "rdiv! - Horizontally concatenated matrices" begin
@@ -24,6 +29,7 @@ end
     n = n1 + n2
     A = BlockArray(rand(m,n), [m], [n1,n2])
     b = rand(m)
+    res = similar(b)
     c = copy(b)
     B = copy(A)
 
@@ -31,9 +37,9 @@ end
     F = qr(B)
     R = get_r(A)
 
-    StructuredQR.rdiv!(R, b)
+    StructuredQR.rdiv!(res, R, b)
     y = R\c
-    @test norm(y - b[1:n]) ≤ 1e-12
+    @test norm(y - res[1:n]) ≤ 1e-12
 end
 
 @testset "rdiv! - BlockDiagonal matrices" begin
@@ -54,18 +60,24 @@ end
         F = qr(vB[k])
         R = get_r(vA[k])
         b = rand(m)
+        res = similar(b)
         c = copy(b)
     
-        StructuredQR.rdiv!(R, b)
+        StructuredQR.rdiv!(res, R, b)
         y = R\c
-        @test norm(y - b[1:n]) ≤ 1e-12
+        @test norm(y - res[1:n]) ≤ 1e-12
     end
 end
+
+println("-------------------------------")
+println("Test for qrsolve!")
+println("-------------------------------")
 
 @testset "qrsolve! - BlockDiagonal matrices - Full matrix" begin
     bm = BlockDiagonal([rand(3, 3), rand(3, 2)])
     m, n = size(bm)
     b = rand(m)
+    res = similar(b)
     c = copy(b)
     am = copy(bm)
 
@@ -73,9 +85,9 @@ end
     F = qr(bm)
     R = get_r(am)
 
-    StructuredQR.rdiv!(am, b)
+    StructuredQR.rdiv!(res, am, b)
     y = R\c
-    @test norm(b[1:n] - y) ≤ 1e-12
+    @test norm(res[1:n] - y) ≤ 1e-12
 end
 
 @testset "qrsolve! - dense matrices" begin
@@ -85,14 +97,15 @@ end
     n = n1 + n2
     A = rand(m, n)
     b = rand(m)
+    res = similar(b)
     c = copy(b)
     B = copy(A)
     
     F = qr(B)
     
-    qrsolve!(A, b)
+    qrsolve!(res, A, b)
     y = F\c
-    @test norm(y - b[1:n]) ≤ 1e-12
+    @test norm(y - res[1:n]) ≤ 1e-12
 end
 
 @testset "qrsolve! - horizontally concatenated matrices" begin
@@ -102,14 +115,15 @@ end
     n = n1 + n2
     A = BlockArray(rand(m,n), [m], [n1,n2])
     b = rand(m)
+    res = similar(b)
     c = copy(b)
     B = copy(A)
     
     F = qr(B)
     
-    qrsolve!(A, b)
+    qrsolve!(res, A, b)
     y = F\c
-    @test norm(y - b[1:n]) ≤ 1e-12
+    @test norm(y - res[1:n]) ≤ 1e-12
 end
 
 @testset "qrsolve! - BlockDiagonal matrices - block by block" begin
@@ -129,11 +143,12 @@ end
         F = qr(vB[k])
 
         b = rand(m)
+        res = similar(b)
         c = copy(b)
     
-        qrsolve!(vA[k], b)
+        qrsolve!(res, vA[k], b)
         y = F\c
-        @test norm(y - b[1:n]) ≤ 1e-12
+        @test norm(y - res[1:n]) ≤ 1e-12
     end
 end
 
@@ -141,10 +156,11 @@ end
     bm = BlockDiagonal([rand(3, 3), rand(3, 2)])
     m, n = size(bm)
     b = rand(m)
+    res = similar(b)
     c = copy(b)
     am = copy(bm)
-    qrsolve!(am, b)
+    qrsolve!(res, am, b)
     F = qr(bm)
     y = F\c
-    @test norm(b[1:n] - y) ≤ 1e-12
+    @test norm(res[1:n] - y) ≤ 1e-12
 end

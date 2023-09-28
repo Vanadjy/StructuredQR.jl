@@ -4,17 +4,16 @@ m = 10
 n = n1 + n2
 A = rand(m, n)
 b = rand(m)
-c = copy(b)
-B = copy(A)
+res = deepcopy(b)
 
 R = get_r(A)
 
 a_rdiv! = @allocated begin
-    StructuredQR.rdiv!(R, b)
+    StructuredQR.rdiv!(res, R, b)
 end; #show(a_rdiv!)
 @test a_rdiv! == 0
 
 a_qrsolve! = @allocated begin
-    qrsolve!(A, b)
+    qrsolve!(res, A, b)
 end; #show(a_qrsolve!)
 @test a_qrsolve! == 0

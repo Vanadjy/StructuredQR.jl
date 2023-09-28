@@ -32,4 +32,4 @@ Ah = BlockArray(rand(m,n), [m], [n1,n2])
 qrhat_QRhcat_a = @allocated begin 
     qrhat!(Ah)
 end; @show(qrhat_QRhcat_a)
-#display(@test qrhat_QRhcat_a == 0)
+#@test qrhat_QRhcat_a == 0

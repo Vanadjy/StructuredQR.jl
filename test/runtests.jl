@@ -14,6 +14,7 @@ include("QRutils.jl")
 include("TestDenseQR.jl") 
 include("TestBlocDiagQR.jl") 
 include("TestHCatQR.jl")
+include("TestQprods.jl")
 include("TestQRsolve.jl")
 
 ## Tests the number of allocations ##

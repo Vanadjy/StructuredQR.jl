@@ -77,21 +77,12 @@ println("-------------------------------")
         bm = BlockDiagonal([rand(3, 3), rand(3, 2)])
         m, n = size(bm)
         am = copy(bm)
-        b1 = rand(m)
-        b2 = copy(b1)
-        c = copy(b1)
 
         qrhat!(am)
         F = qr(bm)
         R = get_r(am)
-
         Q = QRebuildBDM!(am)
-        qtprod!(am, b1)
-        @test norm(b1 - Q'c) ≤ 1e-13
-        qprod!(am, b2)
-        @test norm(b2 - Q*c) ≤ 1e-13
 
-        
         @test norm(F.Q - Q) ≤ 1e-13
         @test norm(F.R - R[1:n, 1:n]) ≤ 1e-13
         @test norm((Q * R) - bm) ≤ 1e-13
